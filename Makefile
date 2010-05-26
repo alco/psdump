@@ -1,11 +1,11 @@
 obj-files = main.o Document.o Layer.o Record.o LayerGroup.o TextFormatter.o XmlFormatter.o PsdParser.o JsonFormatter.o
 
-psdump: $(obj-files)
-	g++ -arch x86_64 -L. -lpsd-0.9 $(obj-files) -o psdump
+psdump: $(obj-files) build/libpsd-0.9.a
+	g++ -arch x86_64 -Lbuild -lpsd-0.9 $(obj-files) -o build/psdump
 
-libpsd: adjustment.o
+build/libpsd-0.9.a: adjustment.o
 	gcc-4.2 -x c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -mfix-and-continue -gdwarf-2 -Ilibpsd-0.9/include -c libpsd-0.9/src/*.c
-	libtool -static -arch_only x86_64 *.o -o libpsd-0.9.a
+	libtool -static -arch_only x86_64 *.o -o build/libpsd-0.9.a
 
 adjustment.o: libpsd-0.9/src/adjustment.c
 
