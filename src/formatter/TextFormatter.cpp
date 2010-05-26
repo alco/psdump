@@ -19,11 +19,15 @@ void TextFormatter::dump_group_contents(LayerGroup *group, FILE *file, int inden
 	do {
 		if (child->is_group()) {
 			print_indent(file, indent);
-			fprintf(file, "\"%s\" {\n", child->name());
+			fprintf(file, "\"%s\" {", child->name());
 
-			dump_group_contents(static_cast<LayerGroup *>(child), file, indent + TEXTFORMATTER_INDENT_SIZE);
+			if (((LayerGroup *)child)->children_count()) {
+			  fputs("\n", file);
+			  dump_group_contents(static_cast<LayerGroup *>(child), file, indent + TEXTFORMATTER_INDENT_SIZE);
 
-			print_indent(file, indent);
+			  print_indent(file, indent);
+			}
+
 			fputs("}\n", file);
 		} else {
 			Layer *layer = static_cast<Layer *>(child);
