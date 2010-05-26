@@ -1,5 +1,7 @@
-psdump: main.o Document.o Layer.o Record.o LayerGroup.o TextFormatter.o PsdParser.o
-	g++ -arch x86_64 -L. -lpsd-0.9 main.o Document.o Layer.o Record.o LayerGroup.o TextFormatter.o PsdParser.o -o psdump
+obj-files = main.o Document.o Layer.o Record.o LayerGroup.o TextFormatter.o XmlFormatter.o PsdParser.o
+
+psdump: $(obj-files)
+	g++ -arch x86_64 -L. -lpsd-0.9 $(obj-files)
 
 libpsd: adjustment.o
 	gcc-4.2 -x c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -mfix-and-continue -gdwarf-2 -Ilibpsd-0.9/include -c libpsd-0.9/src/*.c
@@ -8,19 +10,21 @@ libpsd: adjustment.o
 adjustment.o: libpsd-0.9/src/adjustment.c
 
 
-main.o: src/main.cpp
+main.o: src/main.cpp Document.h TextFormatter.h XmlFormatter.h PsdParser.h
 	g++ -c -Ilibpsd-0.9/include src/main.cpp
-Document.o: src/Document.cpp
+Document.o: src/Document.cpp src/Document.h
 	g++ -c src/Document.cpp
-Layer.o: src/Layer.cpp
+Layer.o: src/Layer.cpp src/Layer.h
 	g++ -c src/Layer.cpp
-Record.o: src/Record.cpp
+Record.o: src/Record.cpp src/Record.h
 	g++ -c src/Record.cpp
-LayerGroup.o: src/LayerGroup.cpp
+LayerGroup.o: src/LayerGroup.cpp src/LayerGroup.h
 	g++ -c src/LayerGroup.cpp
-TextFormatter.o: src/formatter/TextFormatter.cpp
+TextFormatter.o: src/formatter/TextFormatter.cpp src/formatter/TextFormatter.h
 	g++ -c src/formatter/TextFormatter.cpp
-PsdParser.o: src/parser/PsdParser.cpp
+XmlFormatter.o: src/formatter/XmlFormatter.cpp src/formatter/XmlFormatter.h
+	g++ -c src/formatter/XmlFormatter.cpp
+PsdParser.o: src/parser/PsdParser.cpp src/parser/PsdParser.h
 	g++ -c -Ilibpsd-0.9/include src/parser/PsdParser.cpp
 
 

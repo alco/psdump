@@ -21,7 +21,7 @@ class LayerGroup;
 
 class TextFormatter {
 public:
-	void dump_doc_to_file(Document *doc, FILE *file);
+	virtual void dump_doc_to_file(Document *doc, FILE *file);
 
 private:
 	void dump_group_contents(LayerGroup *group, FILE *file, int indent);
