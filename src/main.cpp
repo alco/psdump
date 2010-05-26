@@ -2,6 +2,7 @@
 
 #include "formatter/TextFormatter.h"
 #include "formatter/XmlFormatter.h"
+#include "formatter/JsonFormatter.h"
 
 #include <stdio.h>
 
@@ -18,12 +19,12 @@ int main(int argc, char **argv)
 
 //             TextFormatter text_dumper;
 // 	text_dumper.dump_doc_to_file(doc, stdout);
-/*
-	JsonDump json_dumper;
+
+	JsonFormatter json_dumper;
 	json_dumper.dump_doc_to_file(doc, stdout);
-*/
-	XmlFormatter xml_dumper;
-	xml_dumper.dump_doc_to_file(doc, stdout);
+
+	//	XmlFormatter xml_dumper;
+	//	xml_dumper.dump_doc_to_file(doc, stdout);
 
 	delete doc;
 
