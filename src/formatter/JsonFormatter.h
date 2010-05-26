@@ -8,12 +8,15 @@
 const int JSONFORMATTER_INDENT_SIZE = 4;
 
 
+/*
+This class produced a formatted JSON output.
+*/
 class JsonFormatter: public TextFormatter {
-public:
-	void dump_doc_to_file(Document *doc, FILE *file);
+ public:
+  void dump_doc_to_file(Document *doc, FILE *file);
 
-private:
-	void dump_group_contents(LayerGroup *group, FILE *file, int indent);
+ private:
+  void dump_group_contents(LayerGroup *group, FILE *file, int indent);
 };
 
 

@@ -17,14 +17,14 @@ int main(int argc, char **argv)
 	PsdParser parser(argv[1]);
 	Document *doc = parser.parse();
 
-	TextFormatter text_dumper;
- 	text_dumper.dump_doc_to_file(doc, stdout);
+	//	TextFormatter text_dumper;
+	// 	text_dumper.dump_doc_to_file(doc, stdout);
 
-	//	JsonFormatter json_dumper;
-	//	json_dumper.dump_doc_to_file(doc, stdout);
+	//      JsonFormatter json_dumper;
+	//     	json_dumper.dump_doc_to_file(doc, stdout);
 
-	//	XmlFormatter xml_dumper;
-	//	xml_dumper.dump_doc_to_file(doc, stdout);
+		XmlFormatter xml_dumper;
+		xml_dumper.dump_doc_to_file(doc, stdout);
 
 	delete doc;
 

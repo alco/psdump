@@ -1,0 +1,15 @@
+document: test/test.psd; width: 480; height: 320;
+
+"Group 1" {
+  "Enclosed group" {
+    "Squares" 173 54 116 51
+    "Empty group" {}
+    "Circle" 182 135 90 90
+  }
+  "Right" 292 242 155 68
+  "Left" 44 247 158 72
+}
+"Group 2" {
+  "Noise" 329 72 97 87
+}
+"Text" 68 45 15 137

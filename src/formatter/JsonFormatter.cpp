@@ -1,7 +1,6 @@
 #include "JsonFormatter.h"
 
 #include "../Document.h"
-#include "../Layer.h"
 
 
 void JsonFormatter::dump_doc_to_file(Document *doc, FILE *file)
@@ -38,19 +37,22 @@ void JsonFormatter::dump_group_contents(LayerGroup *group, FILE *file, int inden
       print_indent(file, indent);
       fprintf(file, "{ \"group\": \"%s\", \"children\": [", child->name());
 
-      if (((LayerGroup *)child)->children_count()) {
+      LayerGroup *child_group = static_cast<LayerGroup *>(child);
+      if (child_group->children_count()) {
 	fputs("\n", file);
-	dump_group_contents(static_cast<LayerGroup *>(child), file, indent + JSONFORMATTER_INDENT_SIZE);
-
+	dump_group_contents(child_group, file, indent + JSONFORMATTER_INDENT_SIZE);
 	print_indent(file, indent);
-	fputs("]}\n", file);
+	fputs("]}", file);
       } else {
-	fputs("] }\n", file);
+	fputs("] }", file);
       }
     } else {
       Layer *layer = static_cast<Layer *>(child);
       print_indent(file, indent);
-      fprintf(file, "{ \"layer\": \"%s\", \"left\": %d, \"top\": %d, \"width\": %d, \"height\": %d }\n", layer->name(), layer->x(), layer->y(), layer->width(), layer->height());
+      fprintf(file, "{ \"layer\": \"%s\", \"left\": %d, \"top\": %d, \"width\": %d, \"height\": %d }", layer->name(), layer->x(), layer->y(), layer->width(), layer->height());
     }
+
+    if (group->has_next_child()) fputs(",", file);
+    fputs("\n", file);
   } while (child = group->next_child());
 }

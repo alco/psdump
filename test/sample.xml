@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<document name="test/sample.psd" width="480" height="320">
+    <group name="Group 1">
+        <group name="Enclosed group">
+            <layer name="Squares" left="173" top="54" width="116" height="51"/>
+            <group name="Empty group"/>
+            <layer name="Circle" left="182" top="135" width="90" height="90"/>
+        </group>
+        <layer name="Right" left="292" top="242" width="155" height="68"/>
+        <layer name="Left" left="44" top="247" width="158" height="72"/>
+    </group>
+    <group name="Group 2">
+        <layer name="Noise" left="329" top="72" width="97" height="87"/>
+    </group>
+    <layer name="Text" left="68" top="45" width="15" height="137"/>
+</document>

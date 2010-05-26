@@ -1,7 +1,6 @@
 #include "XmlFormatter.h"
 
 #include "../Document.h"
-#include "../Layer.h"
 
 
 void XmlFormatter::dump_doc_to_file(Document *doc, FILE *file)
@@ -22,12 +21,17 @@ void XmlFormatter::dump_group_contents(LayerGroup *group, FILE *file, int indent
   do {
     if (child->is_group()) {
       print_indent(file, indent);
-      fprintf(file, "<group name=\"%s\">\n", child->name());
+      fprintf(file, "<group name=\"%s\"", child->name());
 
-      dump_group_contents(static_cast<LayerGroup *>(child), file, indent + XMLFORMATTER_INDENT_SIZE);
-
-      print_indent(file, indent);
-      fputs("</group>\n", file);
+      LayerGroup *group_child = static_cast<LayerGroup *>(child);
+      if (group_child->children_count()) {
+	fputs(">\n", file);
+	dump_group_contents(group_child, file, indent + XMLFORMATTER_INDENT_SIZE);
+	print_indent(file, indent);
+	fputs("</group>\n", file);
+      } else {
+	fputs("/>\n", file);
+      }
     } else {
       Layer *layer = static_cast<Layer *>(child);
       print_indent(file, indent);

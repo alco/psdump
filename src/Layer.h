@@ -5,22 +5,25 @@
 #include "Record.h"
 
 
+/*
+This class encapsulates all the relevant data for a layer.
+*/
 class Layer: public Record {
-public:
-	Layer(const char *name, int x, int y, int width, int height);
+ public:
+  Layer(const char *name, int x, int y, int width, int height);
 
-	bool is_group() const { return false; }
+  bool is_group() const { return false; }
 
-	int x() const { return x_; }
-	int y() const { return y_; }
-	int width() const { return width_; }
-	int height() const { return height_; }
+  int x() const { return x_; }
+  int y() const { return y_; }
+  int width() const { return width_; }
+  int height() const { return height_; }
 
-private:
-	int x_;
-	int y_;
-	int width_;
-	int height_;
+ private:
+  int x_;
+  int y_;
+  int width_;
+  int height_;
 };
 
 
