@@ -5,7 +5,10 @@
 #include "formatter/JsonFormatter.h"
 
 #include <stdio.h>
-#include <unistd.h>
+
+#if !defined(_MSC_VER)
+#	include <unistd.h>
+#endif
 
 
 typedef enum {
@@ -17,11 +20,13 @@ typedef enum {
 
 int main(int argc, char **argv)
 {
-  int option;
   char *f_value = NULL;
   char *o_value = NULL;
 
   OutputFormat output_format = kOutputFormatText;
+
+#if !defined(_MSC_VER)
+  int option;
 
   opterr = 0;
 
@@ -49,6 +54,9 @@ int main(int argc, char **argv)
       abort();
     }
   }
+#else
+  int optind = 1;
+#endif // #if !defined(_MSC_VER)
 
   if (optind >= argc) {
     printf("Usage: psdump [-f FORMAT] [-o OUTPUT_PATH] file ...\n");

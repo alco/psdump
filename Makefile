@@ -38,6 +38,7 @@ build/PsdParser.o: src/parser/PsdParser.cpp src/parser/PsdParser.h
 .PHONY: clean, tidyup
 tidyup:
 	rm -f build/*.o
+	rm -f build/libpsd-0.9
 	rm -f *.o
 clean:
 	rm -rf build

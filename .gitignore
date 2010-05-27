@@ -2,4 +2,9 @@
 *~
 *.a
 *.o
+*.user
+*.ncb
+*.suo
 build
+Debug
+Release
