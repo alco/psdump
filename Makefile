@@ -38,7 +38,7 @@ build/PsdParser.o: src/parser/PsdParser.cpp src/parser/PsdParser.h
 .PHONY: clean, tidyup
 tidyup:
 	rm -f build/*.o
-	rm *.o
+	rm -f *.o
 clean:
 	rm -rf build
-	rm *.o
+	rm -f *.o
