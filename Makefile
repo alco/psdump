@@ -1,12 +1,16 @@
 obj-files = build/main.o build/Document.o build/Layer.o build/Record.o build/LayerGroup.o build/TextFormatter.o build/XmlFormatter.o build/PsdParser.o build/JsonFormatter.o
+libpsd-objects = adjustment.o bevel_emboss.o bitmap.o blend.o boundary.o brightness_contrast.o channel_image.o channel_mixer.o color.o color_balance.o color_mode.o color_overlay.o \
+curves.o descriptor.o drop_shadow.o effects.o file_header.o fixed.o gaussian_blur.o gradient_blend.o gradient_fill.o gradient_map.o gradient_overlay.o hue_saturation.o image_data.o \
+image_resource.o inner_glow.o inner_shadow.o invert.o layer_mask.o levels.o outer_glow.o path.o pattern.o pattern_fill.o pattern_overlay.o photo_filter.o posterize.o psd.o psd_system.o \
+psd_zip.o rect.o satin.o selective_color.o solid_color.o stream.o stroke.o threshold.o thumbnail.o type_tool.o
 
-psdump: build_dir build/libpsd-0.9.a $(obj-files)
-	g++ -arch x86_64 -Lbuild -lpsd-0.9 $(obj-files) -o build/psdump
 
-build/libpsd-0.9.a:
-	gcc-4.2 -x c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -mfix-and-continue -gdwarf-2 -Ilibpsd-0.9/include -c libpsd-0.9/src/*.c
-	libtool -static -arch_only x86_64 *.o -o build/libpsd-0.9.a
-	rm *.o
+psdump: build_dir build/libpsd-0.9 $(obj-files)
+	g++ $(obj-files) $(libpsd-objects) -o build/psdump
+
+build/libpsd-0.9:
+	gcc -Ilibpsd-0.9/include -c libpsd-0.9/src/*.c
+	touch build/libpsd-0.9
 
 build_dir:
 	mkdir -p build
@@ -34,5 +38,7 @@ build/PsdParser.o: src/parser/PsdParser.cpp src/parser/PsdParser.h
 .PHONY: clean, tidyup
 tidyup:
 	rm -f build/*.o
+	rm *.o
 clean:
 	rm -rf build
+	rm *.o
