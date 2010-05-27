@@ -214,6 +214,18 @@
 				RelativePath="..\src\Record.h"
 				>
 			</File>
+			<Filter
+				Name="getopt-support"
+				>
+				<File
+					RelativePath="..\src\win32\getopt.c"
+					>
+				</File>
+				<File
+					RelativePath="..\src\win32\getopt.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="parser"
