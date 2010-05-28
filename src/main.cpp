@@ -14,7 +14,11 @@
 #  include <unistd.h>
 #else
 #  include "win32/getopt.h"
+#  define S_ISDIR(x) (((x) & 0xF000) == 0x4000)
 #endif
+
+
+typedef std::string::size_type size_type;
 
 
 std::string build_path(const char *dirname, const char *filename, const char *format);
@@ -79,7 +83,20 @@ int main(int argc, char **argv)
   if (o_value) {
     // Check whether its a file or a directory
     struct stat stat_buffer;
+
+#if defined(_MSC_VER)
+    // Some serious code to remove trailing slashes,
+    // because windows won't recognize a directory with slashes
+    // (it is that stupid)
+    std::string dirname(o_value);
+    size_type index = dirname.size() - 1;
+    while (dirname[index] == '/' || dirname[index] == '\\')
+      dirname.resize(index);
+
+    int type = stat(dirname.c_str(), &stat_buffer);
+#else
     int type = stat(o_value, &stat_buffer);
+#endif
 
     if (S_ISDIR(stat_buffer.st_mode)) {
       output_dirname = o_value;
@@ -130,8 +147,6 @@ int main(int argc, char **argv)
   return 0;
 }
 
-
-typedef std::string::size_type size_type;
 
 std::string build_path(const char *dirname, const char *filename, const char *format)
 {
