@@ -2,66 +2,60 @@
 
 cd `dirname $0`
 
-psdump="../build/psdump -o temp"
+psdump="../build/psdump"
 psdfile="sample.psd"
 
 # First compare output to samples with single input file
 
-echo -n "### Single input file test..."
+echo "### Single input file test"
 status=0
 
-text_result=`$psdump $psdfile`
-diff temp sample.txt
+$psdump $psdfile | diff sample.txt - >/dev/null
 if [ "$?" -ne "0" ]; then
     echo "TEXT test failed."
-    status="bad"
+    status=1
 fi
 
-xml_result=`$psdump -f xml $psdfile`
-diff temp sample.xml
+$psdump -f xml $psdfile | diff sample.xml - >/dev/null
 if [ "$?" -ne "0" ]; then
     echo "XML test failed."
-    status="bad"
+    status=1
 fi
 
-json_result=`$psdump -f json $psdfile`
-diff temp sample.json
+$psdump -f json $psdfile | diff sample.json - >/dev/null
 if [ "$?" -ne "0" ]; then
     echo "JSON test failed."
-    status="bad"
+    status=1
 fi
 
 if [ "$status" -eq "0" ]; then
-    echo "OK."
+    echo "### OK."
 fi
 
 # Now compare output to sample with multiple input files
 
-echo -n "### Multiple input files test..."
+echo "### Multiple input files test"
 
 psdfiles="sample.psd sample.psd"
 
-text_result=`$psdump $psdfiles`
-diff temp sample_multi.txt
+$psdump $psdfiles | diff sample_multi.txt - >/dev/null
 if [ "$?" -ne "0" ]; then
     echo "TEXT test failed."
-    status="bad"
+    status=1
 fi
 
-xml_result=`$psdump -f xml $psdfiles`
-diff temp sample_multi.xml
+$psdump -f xml $psdfiles | diff sample_multi.xml - >/dev/null
 if [ "$?" -ne "0" ]; then
     echo "XML test failed."
-    status="bad"
+    status=1
 fi
 
-json_result=`$psdump -f json $psdfiles`
-diff temp sample_multi.json
+$psdump -f json $psdfiles | diff sample_multi.json - >/dev/null
 if [ "$?" -ne "0" ]; then
     echo "JSON test failed."
-    status="bad"
+    status=1
 fi
 
 if [ "$status" -eq "0" ]; then
-    echo "OK."
+    echo "### OK."
 fi

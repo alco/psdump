@@ -35,8 +35,10 @@ build/PsdParser.o: src/parser/PsdParser.cpp src/parser/PsdParser.h
 	g++ -c -Ilibpsd-0.9/include src/parser/PsdParser.cpp -o build/PsdParser.o
 
 
-.PHONY: clean, tidyup, test
+.PHONY: clean, tidyup, shtest, test
 test:
+	python test/test.py
+shtest:
 	test/test.sh
 tidyup:
 	rm -f build/*.o
