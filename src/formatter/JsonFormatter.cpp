@@ -3,9 +3,18 @@
 #include "../Document.h"
 
 
-void JsonFormatter::dump_doc_to_file(Document *doc, FILE *file)
+void JsonFormatter::print_header(FILE *file)
 {
   fputs("{\n", file);
+}
+
+void JsonFormatter::print_footer(FILE *file)
+{
+  fputs("}\n", file);
+}
+
+void JsonFormatter::print_layout(Document *doc, FILE *file)
+{
   print_indent(file, JSONFORMATTER_INDENT_SIZE);
   fprintf(file, "\"document\": {\n");
   print_indent(file, JSONFORMATTER_INDENT_SIZE * 2);
@@ -23,8 +32,6 @@ void JsonFormatter::dump_doc_to_file(Document *doc, FILE *file)
     print_indent(file, JSONFORMATTER_INDENT_SIZE);
     fputs("}\n", file);
   }
-
-  fputs("}\n", file);
 }
 
 void JsonFormatter::dump_group_contents(LayerGroup *group, FILE *file, int indent)

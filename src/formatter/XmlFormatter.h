@@ -13,7 +13,8 @@ This class generates output in XML format.
 */
 class XmlFormatter: public TextFormatter {
  public:
-  void dump_doc_to_file(Document *doc, FILE *file);
+  void print_header(FILE *file);
+  void print_layout(Document *doc, FILE *file);
 
  private:
   void dump_group_contents(LayerGroup *group, FILE *file, int indent);

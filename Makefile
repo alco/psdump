@@ -16,7 +16,7 @@ build_dir:
 	mkdir -p build
 
 build/main.o: src/main.cpp src/Document.h src/formatter/TextFormatter.h src/formatter/XmlFormatter.h src/formatter/JsonFormatter.h src/parser/PsdParser.h
-	g++ -c -Ilibpsd-0.9/include src/main.cpp -o build/main.o
+	g++ -c -Wno-write-strings -Ilibpsd-0.9/include src/main.cpp -o build/main.o
 build/Document.o: src/Document.cpp src/Document.h
 	g++ -c src/Document.cpp -o build/Document.o
 build/Layer.o: src/Layer.cpp src/Layer.h

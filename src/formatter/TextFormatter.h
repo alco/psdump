@@ -25,7 +25,11 @@ hierarchy. It also serves as a base class for other formatters.
 */
 class TextFormatter {
  public:
-  virtual void dump_doc_to_file(Document *doc, FILE *file);
+  virtual void print_header(FILE *file);
+  virtual void print_footer(FILE *file);
+  virtual void print_layout(Document *doc, FILE *file);
+
+  void print_document(Document *doc, FILE *file);
 
  private:
   void dump_group_contents(LayerGroup *group, FILE *file, int indent);

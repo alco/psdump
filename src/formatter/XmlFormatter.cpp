@@ -3,9 +3,13 @@
 #include "../Document.h"
 
 
-void XmlFormatter::dump_doc_to_file(Document *doc, FILE *file)
+void XmlFormatter::print_header(FILE *file)
 {
   fputs("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n", file);
+}
+
+void XmlFormatter::print_layout(Document *doc, FILE *file)
+{
   fprintf(file, "<document name=\"%s\" width=\"%d\" height=\"%d\">\n", doc->name(), doc->width(), doc->height());
 
   dump_group_contents(doc, file, XMLFORMATTER_INDENT_SIZE);
