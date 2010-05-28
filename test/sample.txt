@@ -1,4 +1,4 @@
-document: test/test.psd; width: 480; height: 320;
+document: sample.psd; width: 480; height: 320;
 
 "Group 1" {
   "Enclosed group" {

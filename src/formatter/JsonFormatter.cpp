@@ -5,18 +5,18 @@
 
 void JsonFormatter::print_header(FILE *file)
 {
-  fputs("{\n", file);
+  fputs("[\n", file);
 }
 
 void JsonFormatter::print_footer(FILE *file)
 {
-  fputs("}\n", file);
+  fputs("]\n", file);
 }
 
 void JsonFormatter::print_layout(Document *doc, FILE *file)
 {
   print_indent(file, JSONFORMATTER_INDENT_SIZE);
-  fprintf(file, "\"document\": {\n");
+  fprintf(file, "{\n");
   print_indent(file, JSONFORMATTER_INDENT_SIZE * 2);
   fprintf(file, "\"name\": \"%s\", \"width\": %d, \"height\": %d, \"children\": [", doc->name(), doc->width(), doc->height());
   if (doc->children_count()) {
@@ -26,11 +26,11 @@ void JsonFormatter::print_layout(Document *doc, FILE *file)
     print_indent(file, JSONFORMATTER_INDENT_SIZE * 2);
     fputs("]\n", file);
     print_indent(file, JSONFORMATTER_INDENT_SIZE);
-    fputs("}\n", file);
+    fputs("},\n", file);
   } else {
     fputs("]\n", file);
     print_indent(file, JSONFORMATTER_INDENT_SIZE);
-    fputs("}\n", file);
+    fputs("},\n", file);
   }
 }
 

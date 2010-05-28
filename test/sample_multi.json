@@ -16,4 +16,22 @@
             { "layer": "Text", "left": 68, "top": 45, "width": 15, "height": 137 }
         ]
     },
+
+    {
+        "name": "sample.psd", "width": 480, "height": 320, "children": [
+            { "group": "Group 1", "children": [
+                { "group": "Enclosed group", "children": [
+                    { "layer": "Squares", "left": 173, "top": 54, "width": 116, "height": 51 },
+                    { "group": "Empty group", "children": [] },
+                    { "layer": "Circle", "left": 182, "top": 135, "width": 90, "height": 90 }
+                ]},
+                { "layer": "Right", "left": 292, "top": 242, "width": 155, "height": 68 },
+                { "layer": "Left", "left": 44, "top": 247, "width": 158, "height": 72 }
+            ]},
+            { "group": "Group 2", "children": [
+                { "layer": "Noise", "left": 329, "top": 72, "width": 97, "height": 87 }
+            ]},
+            { "layer": "Text", "left": 68, "top": 45, "width": 15, "height": 137 }
+        ]
+    },
 ]
