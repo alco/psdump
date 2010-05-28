@@ -218,11 +218,11 @@
 				Name="getopt-support"
 				>
 				<File
-					RelativePath="..\src\win32\getopt.c"
+					RelativePath="..\src\win32\getopt_long.c"
 					>
 				</File>
 				<File
-					RelativePath="..\src\win32\getopt.h"
+					RelativePath="..\src\win32\getopt_long.h"
 					>
 				</File>
 			</Filter>

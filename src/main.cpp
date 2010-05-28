@@ -14,7 +14,7 @@
 #  include <unistd.h>
 #  include <getopt.h>
 #else
-#  include "win32/getopt.h"
+#  include "win32/getopt_long.h"
 #  define S_ISDIR(x) (((x) & 0xF000) == 0x4000)
 #endif
 

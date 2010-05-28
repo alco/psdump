@@ -1,25 +1,89 @@
+/*
+ * THIS IS NOT A CLEAN COPY OF GETOPT.C AND GETOPT1.C 
+ * -- that is, do not use it in other projects.
+ *
+ * Implementation of getopt_long, cobbled together from getopt.c and
+ * getopt1.c from the GNU binutils distribution.  This is more-or-less
+ * getopt.c inserted into getopt1.c, with the definition of getopt()
+ * commented out.
+ *
+ * Need to ifdef out optarg, optind, opterr, optopt, to handle the
+ * case where these are already defined for the benefit of system
+ * getopt()
+ *
+ * No, it's not pretty.
+ */
+
+/* getopt_long and getopt_long_only entry points for GNU getopt.
+   Copyright (C) 1987,88,89,90,91,92,93,94,96,97,98
+     Free Software Foundation, Inc.
+
+   NOTE: This source is derived from an old version taken from the GNU C
+   Library (glibc).
+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.  */
+
+//#include <config.h>
+
+#ifndef HAVE_GETOPT_LONG
+/* We shouldn't be compiling this module in this case, but we clearly
+   are (damned configuration tools!), so avoid messing up. */
+
+#include "getopt_long.h"
+/* See getopt_long.h for discussion of THIS_IS__STDC__ */
+
+
+#if !defined THIS_IS__STDC__ || !THIS_IS__STDC__
+/* This is a separate conditional since some stdc systems
+   reject `defined (const)'.  */
+#ifndef const
+#define const
+#endif
+#endif
+
+#include <stdio.h>
+
+
+
+/* ******************** getopt.c ******************** */
 /* Getopt for GNU.
    NOTE: getopt is now part of the C library, so if you don't know what
    "Keep this file name-space clean" means, talk to drepper@gnu.org
    before changing it!
 
-   Copyright (C) 1987, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+   Copyright (C) 1987, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98
    	Free Software Foundation, Inc.
 
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU General Public License as
-   published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   NOTE: This source is derived from an old version taken from the GNU C
+   Library (glibc).
 
-   The GNU C Library is distributed in the hope that it will be useful,
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version.
+
+   This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public
-   License along with the GNU C Library; see the file COPYING.  If not,
-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.  */
 
 /* This tells Alpha OSF/1 not to define a getopt prototype in <stdio.h>.
    Ditto for AIX 3.2 and <stdlib.h>.  */
@@ -27,11 +91,8 @@
 # define _NO_PROTO
 #endif
 
-#ifdef HAVE_CONFIG_H
-# include <config.h>
-#endif
 
-#if !defined __STDC__ || !__STDC__
+#if !defined THIS_IS__STDC__ || !THIS_IS__STDC__
 /* This is a separate conditional since some stdc systems
    reject `defined (const)'.  */
 # ifndef const
@@ -101,7 +162,14 @@
    GNU application programs can use a third alternative mode in which
    they can distinguish the relative order of options and other arguments.  */
 
-#include "getopt.h"
+
+
+/* Define HAVE_GETOPT if the getopt function (and thus, which is more
+ * important to us, the getopt globals, optarg, optind, opterr and
+ * optopt) is defined by the system.  Leave undefined if they should be
+ * defined here instead.
+ */
+#ifndef HAVE_GETOPT
 
 /* For communication from `getopt' to the caller.
    When `getopt' finds an option that takes an argument,
@@ -109,7 +177,7 @@
    Also, when `ordering' is RETURN_IN_ORDER,
    each non-option ARGV-element is returned here.  */
 
-char *optarg;
+char *optarg = NULL;
 
 /* Index in ARGV of the next element to be scanned.
    This is used for communication to and from the caller
@@ -126,21 +194,6 @@ char *optarg;
 /* 1003.2 says this must be 1 before any call.  */
 int optind = 1;
 
-/* Formerly, initialization of getopt depended on optind==0, which
-   causes problems with re-calling getopt as programs generally don't
-   know that. */
-
-int __getopt_initialized;
-
-/* The next char to be scanned in the option-element
-   in which the last option character we returned was found.
-   This allows us to pick up the scan where we left off.
-
-   If this is zero, or a null string, it means resume the scan
-   by advancing to the next ARGV-element.  */
-
-static char *nextchar;
-
 /* Callers store zero here to inhibit the error message
    for unrecognized options.  */
 
@@ -151,6 +204,23 @@ int opterr = 1;
    system's own getopt implementation.  */
 
 int optopt = '?';
+
+#endif /* #ifndef HAVE_GETOPT */
+
+/* Formerly, initialization of getopt depended on optind==0, which
+   causes problems with re-calling getopt as programs generally don't
+   know that. */
+
+int __getopt_initialized = 0;
+
+/* The next char to be scanned in the option-element
+   in which the last option character we returned was found.
+   This allows us to pick up the scan where we left off.
+
+   If this is zero, or a null string, it means resume the scan
+   by advancing to the next ARGV-element.  */
+
+static char *nextchar;
 
 /* Describe how to deal with options that follow non-option ARGV-elements.
 
@@ -201,7 +271,9 @@ static char *posixly_correct;
 # if HAVE_STRING_H
 #  include <string.h>
 # else
-#  include <strings.h>
+#  if HAVE_STRINGS_H
+#   include <strings.h>
+#  endif
 # endif
 
 /* Avoid depending on library functions or files
@@ -230,11 +302,11 @@ my_index (str, chr)
 #ifdef __GNUC__
 /* Note that Motorola Delta 68k R3V7 comes with GCC but not stddef.h.
    That was relevant to code that was here before.  */
-# if (!defined __STDC__ || !__STDC__) && !defined strlen
+# if (!defined THIS_IS__STDC__ || !THIS_IS__STDC__) && !defined strlen
 /* gcc with -traditional declares the built-in strlen to return int,
    and has done so at least since version 2.4.5. -- rms.  */
 extern int strlen (const char *);
-# endif /* not __STDC__ */
+# endif /* not THIS_IS__STDC__ */
 #endif /* __GNUC__ */
 
 #endif /* not __GNU_LIBRARY__ */
@@ -297,7 +369,7 @@ text_set_element (__libc_subinit, store_args_and_env);
    `first_nonopt' and `last_nonopt' are relocated so that they describe
    the new indices of the non-options in ARGV after they are moved.  */
 
-#if defined __STDC__ && __STDC__
+#if defined THIS_IS__STDC__ && THIS_IS__STDC__
 static void exchange (char **);
 #endif
 
@@ -383,7 +455,7 @@ exchange (argv)
 
 /* Initialize the internal data when the first call is made.  */
 
-#if defined __STDC__ && __STDC__
+#if defined THIS_IS__STDC__ && THIS_IS__STDC__
 static const char *_getopt_initialize (int, char *const *, const char *);
 #endif
 static const char *
@@ -508,6 +580,7 @@ _getopt_initialize (argc, argv, optstring)
    If LONG_ONLY is nonzero, '-' as well as '--' can introduce
    long-named options.  */
 
+#if 0
 int
 _getopt_internal (argc, argv, optstring, longopts, longind, long_only)
      int argc;
@@ -516,6 +589,14 @@ _getopt_internal (argc, argv, optstring, longopts, longind, long_only)
      const struct option *longopts;
      int *longind;
      int long_only;
+#endif
+int
+_getopt_internal (int argc,
+	char *const *argv,
+	const char *optstring,
+	const struct option *longopts,
+	int *longind,
+	int long_only)
 {
   optarg = NULL;
 
@@ -706,12 +787,12 @@ _getopt_internal (argc, argv, optstring, longopts, longind, long_only)
 			fprintf (stderr,
 				 _("%s: option `%c%s' doesn't allow an argument\n"),
 				 argv[0], argv[optind - 1][0], pfound->name);
+
+		      nextchar += strlen (nextchar);
+
+		      optopt = pfound->val;
+		      return '?';
 		    }
-
-		  nextchar += strlen (nextchar);
-
-		  optopt = pfound->val;
-		  return '?';
 		}
 	    }
 	  else if (pfound->has_arg == 1)
@@ -964,6 +1045,7 @@ _getopt_internal (argc, argv, optstring, longopts, longind, long_only)
   }
 }
 
+/*
 int
 getopt (argc, argv, optstring)
      int argc;
@@ -975,13 +1057,92 @@ getopt (argc, argv, optstring)
 			   (int *) 0,
 			   0);
 }
+*/
+
+#endif	/* Not ELIDE_CODE.  */
+/* ******************** ...getopt.c ******************** */
+
+
+
+/* Comment out all this code if we are using the GNU C Library, and are not
+   actually compiling the library itself.  This code is part of the GNU C
+   Library, but also included in many other GNU distributions.  Compiling
+   and linking in this code is a waste when using the GNU C library
+   (especially if it is a shared library).  Rather than having every GNU
+   program understand `configure --with-gnu-libc' and omit the object files,
+   it is simpler to just do this in the source for each such file.  */
+
+#define GETOPT_INTERFACE_VERSION 2
+#if !defined _LIBC && defined __GLIBC__ && __GLIBC__ >= 2
+#include <gnu-versions.h>
+#if _GNU_GETOPT_INTERFACE_VERSION == GETOPT_INTERFACE_VERSION
+#define ELIDE_CODE
+#endif
+#endif
+
+#ifndef ELIDE_CODE
+
+
+/* This needs to come after some library #include
+   to get __GNU_LIBRARY__ defined.  */
+#ifdef __GNU_LIBRARY__
+#include <stdlib.h>
+#endif
+
+#ifndef	NULL
+#define NULL 0
+#endif
+
+/* K&R declarations!?  C'mon... */
+/* Just say no to all this gymnastics */
+#if 0
+int
+getopt_long (argc, argv, options, long_options, opt_index)
+     int argc;
+     char *const *argv;
+     const char *options;
+     const struct option *long_options;
+     int *opt_index;
+#endif
+int getopt_long (int argc,
+	char *const *argv,
+	const char *options,
+	const struct option *long_options,
+	int *opt_index)
+{
+  return _getopt_internal (argc, argv, options, long_options, opt_index, 0);
+}
+
+/* Like getopt_long, but '-' as well as '--' can indicate a long option.
+   If an option that starts with '-' (not '--') doesn't match a long option,
+   but does match a short option, it is parsed as a short option
+   instead.  */
+
+#if 0
+int
+getopt_long_only (argc, argv, options, long_options, opt_index)
+     int argc;
+     char *const *argv;
+     const char *options;
+     const struct option *long_options;
+     int *opt_index;
+#endif
+int
+getopt_long_only (int argc,
+	char *const *argv,
+	const char *options,
+	const struct option *long_options,
+	int *opt_index)
+{
+  return _getopt_internal (argc, argv, options, long_options, opt_index, 1);
+}
+
 
 #endif	/* Not ELIDE_CODE.  */
 
 #ifdef TEST
 
-/* Compile with -DTEST to make an executable for use in testing
-   the above definition of `getopt'.  */
+#include <stdio.h>
 
 int
 main (argc, argv)
@@ -994,13 +1155,32 @@ main (argc, argv)
   while (1)
     {
       int this_option_optind = optind ? optind : 1;
+      int option_index = 0;
+      static struct option long_options[] =
+      {
+	{"add", 1, 0, 0},
+	{"append", 0, 0, 0},
+	{"delete", 1, 0, 0},
+	{"verbose", 0, 0, 0},
+	{"create", 0, 0, 0},
+	{"file", 1, 0, 0},
+	{0, 0, 0, 0}
+      };
 
-      c = getopt (argc, argv, "abc:d:0123456789");
+      c = getopt_long (argc, argv, "abc:d:0123456789",
+		       long_options, &option_index);
       if (c == -1)
 	break;
 
       switch (c)
 	{
+	case 0:
+	  printf ("option %s", long_options[option_index].name);
+	  if (optarg)
+	    printf (" with arg %s", optarg);
+	  printf ("\n");
+	  break;
+
 	case '0':
 	case '1':
 	case '2':
@@ -1029,6 +1209,10 @@ main (argc, argv)
 	  printf ("option c with value `%s'\n", optarg);
 	  break;
 
+	case 'd':
+	  printf ("option d with value `%s'\n", optarg);
+	  break;
+
 	case '?':
 	  break;
 
@@ -1049,3 +1233,5 @@ main (argc, argv)
 }
 
 #endif /* TEST */
+
+#endif /* #ifndef HAVE_GETOPT_LONG */
