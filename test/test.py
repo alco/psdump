@@ -3,15 +3,23 @@
 import os
 import sys
 import filecmp
-import tempfile
+import difflib
 from subprocess import call
 
 def run_test(fmt, sample, arg):
-    temp = tempfile.NamedTemporaryFile()
-    psdump = "../build/psdump -o {0} -f {1} {2}".format(temp.name, fmt, arg)
+    psdump = "../build/psdump -o temp -f {0} {1}".format(fmt, arg)
 
     call(psdump.split())
-    if not filecmp.cmp(temp.name, sample):
+
+    with open("temp", "r") as temp_file:
+        temp_lines = temp_file.readlines()
+
+    with open(sample, "r") as sample_file:
+        sample_lines = sample_file.readlines()
+
+    # Compare corresponding lines from 'temp' and 'sample' files
+    diff = difflib.ndiff(temp_lines, sample_lines)
+    if filter(lambda x: not x.startswith('  '), diff):
         print "{0} test failed.".format(fmt.upper())
         return 1
 
