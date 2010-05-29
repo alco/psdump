@@ -210,6 +210,7 @@ static const char *HELP =
 void print_usage()
 {
   puts(USAGE);
+  puts("Type 'psdump --help' for more information.");
 }
 
 void print_version()
@@ -219,7 +220,7 @@ void print_version()
 
 void print_help()
 {
-  print_usage();
+  puts(USAGE);
   puts(HELP);
 }
 
