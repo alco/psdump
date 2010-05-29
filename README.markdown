@@ -1,5 +1,4 @@
-Introduction
-============
+## Introduction
 
 **psdump** is a command line utility which parses Photoshop files and
 outputs their layer hierarchy as a text, JSON, or XML data. Position and
@@ -10,9 +9,7 @@ The program has been tested on the following systems:
 * Mac OS X
 * Windows XP, 7
 
-
-Installing psdump
-=================
+## Installing psdump
 
 In order to start using **psdump** you will likely need to build it
 from source. However, there are precompiled binaries for Mac OS X and
@@ -23,12 +20,10 @@ Once you've downloaded a binary release for your OS, unzip it and type
 
   [downloads]: http://github.com/alco/psdump/downloads
 
+## Building from source
 
-Building from source
-====================
+### The UNIX way
 
-The UNIX way
-------------
 Building from source is fairly simple on a *UNIX-like* system. You just
 need to run `make` in the terminal window. The binary will appear in
 a newly created 'build' directory.
@@ -36,8 +31,8 @@ a newly created 'build' directory.
 You can also run `make test` to run the test-suite
 and `make tidyup` to remove intermediate object files.
 
-Instructions for Windows users
-------------------------------
+### Instructions for Windows users
+
 To build from source on *Windows* you have two options.
 
 The first one is to use [MinGW][mingw] with [Cygwin][cygwin]. With those
@@ -50,12 +45,10 @@ Another way to build the utility is using Microsoft compiler. You
 will find a Visual Studio project file in the 'vcproj' directory. This
 file has been created in MS Visual Studio 2005 (version 9).
 
-  [mingw]: http://www.mingw.org
-  [cygwin]: http://www.cygwin.com
+  [mingw]: http://www.mingw.org "MinGW homepage"
+  [cygwin]: http://www.cygwin.com "Cygwin homepage"
 
-
-Dependencies
-============
+## Dependencies
 
 To parse Photoshop files, **libpsd** is used. You don't need to download
 it separately since its source code is already included with **psdump** and
@@ -67,9 +60,7 @@ successfully build **psdump** from source.
 
   [libpsd]: http://sourceforge.net/projects/libpsd/ "libpsd page at SourceForge.net"
 
-
-Development
-===========
+## Development
 
 Feedback, feature requests, and code reviews are most welcome! Please
 let me know about your experience using **psdump**.
