@@ -46,7 +46,7 @@ similar command) in the Cygwin terminal window. _(There is also a
 Cygwin-like environment called MSYS which supplements MinGW. However,
 I haven't tested it.)_
 
-Another way is to build the utility is using Microsoft compiler. You
+Another way to build the utility is using Microsoft compiler. You
 will find a Visual Studio project file in the 'vcproj' directory. This
 file has been created in MS Visual Studio 2005 (version 9).
 
