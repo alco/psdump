@@ -8,6 +8,7 @@ The program has been tested on the following systems:
 
 * Mac OS X
 * Windows XP, 7
+* Linux (Ubuntu 9.10)
 
 ## Installing psdump
 
@@ -25,27 +26,35 @@ Once you've downloaded a binary release for your OS, unzip it and type
 ### The UNIX way
 
 Building from source is fairly simple on a *UNIX-like* system. You just
-need to run `make` in the terminal window. The binary will appear in
-a newly created 'build' directory.
+need to run `make` in the terminal window. The binary will appear in a
+newly created 'build' directory. _(If you are running some kind of
+minimalistic Linux distribution, you may need to additionally install
+g++.)_
 
-You can also run `make test` to run the test-suite
-and `make tidyup` to remove intermediate object files.
+You can also run `make test` to run the test-suite and `make tidyup` to
+remove intermediate object files. _(If you don't have python
+installed, run `make shtest` instead of `make test`.)_
 
 ### Instructions for Windows users
 
-To build from source on *Windows* you have two options.
+To build from source on *Windows* there are several options.
 
-The first one is to use [MinGW][mingw] with [Cygwin][cygwin]. With those
+The first one is to use [MinGW][mingw] with [MSYS][msys]. With those
 tools installed, building is as easy as typing `mingw32-make` (or a
-similar command) in the Cygwin terminal window. _(There is also a
-Cygwin-like environment called MSYS which supplements MinGW. However,
-I haven't tested it.)_
+similar command) in the MSYS terminal window.
 
-Another way to build the utility is using Microsoft compiler. You
-will find a Visual Studio project file in the 'vcproj' directory. This
-file has been created in MS Visual Studio 2005 (version 9).
+Another way to build **psdump** is using [Cygwin][cygwin]. With 'g++'
+and 'make' packages installed, you just need to run `make` in the
+Cygwin-bash.
+_**Important notice**. If you build psdump using Cygwin, it won't work
+without cygwin1.dll._
+
+Lastly, a Microsoft compiler can be used to build from source. You will
+find a Visual Studio project file in the 'vcproj' directory. This file
+has been created in MS Visual Studio 2005 (version 9).
 
   [mingw]: http://www.mingw.org "MinGW homepage"
+  [msys]: http://www.mingw.org/wiki/MSYS "MSYS wiki page"
   [cygwin]: http://www.cygwin.com "Cygwin homepage"
 
 ## Dependencies
@@ -73,5 +82,5 @@ The following improvements are expected to be introduced in the nearest
 future:
 
 * provide more detailed documentation on adding new features
-* build and test on as many platforms as possible (Linux is the first
-priority here)
+* build and test on as many platforms as possible (your help will be
+appreciated)
