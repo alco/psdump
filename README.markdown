@@ -46,7 +46,7 @@ similar command) in the MSYS terminal window.
 Another way to build **psdump** is using [Cygwin][cygwin]. With 'g++'
 and 'make' packages installed, you just need to run `make` in the
 Cygwin-bash.
-_**Important notice**. If you build psdump using Cygwin, it won't work
+>_**Important notice**. If you build psdump using Cygwin, it won't work
 without cygwin1.dll._
 
 Lastly, a Microsoft compiler can be used to build from source. You will
