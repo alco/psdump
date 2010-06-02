@@ -4,9 +4,11 @@
 #include "formatter/XmlFormatter.h"
 #include "formatter/JsonFormatter.h"
 
-#include <stdio.h>
 #include <ctype.h>
 #include <sys/stat.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include <string>
 
