@@ -69,7 +69,7 @@ successfully build **psdump** from source.
 
   [libpsd]: http://sourceforge.net/projects/libpsd/ "libpsd page at SourceForge.net"
 
-## Development
+## Roadmap
 
 Feedback, feature requests, and code reviews are most welcome! Please
 let me know about your experience using **psdump**.
@@ -78,9 +78,15 @@ It has been designed in such a way that makes it easy to add more output
 formats and even to parse other hierarchical files, not just Photoshop
 ones.
 
-The following improvements are expected to be introduced in the nearest
-future:
+The following improvements are expected to be introduced in the future:
 
 * provide more detailed documentation on adding new features
+* check for conformance of JSON and XML outputs to their corresponding
+specifications
+* tweak the program architecture to make it easy to handle multiple
+document outputs into a single file in a polymorphic way
+* write unit-tests and create a more elaborate test-suite
 * build and test on as many platforms as possible (your help will be
 appreciated)
+
+Once the above features are implemented, version 1.0 will be released.
