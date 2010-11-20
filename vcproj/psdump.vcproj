@@ -251,6 +251,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\formatter\PlistFormatter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\formatter\PlistFormatter.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\formatter\TextFormatter.cpp"
 				>
 			</File>

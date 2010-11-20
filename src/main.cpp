@@ -3,6 +3,7 @@
 #include "formatter/TextFormatter.h"
 #include "formatter/XmlFormatter.h"
 #include "formatter/JsonFormatter.h"
+#include "formatter/PlistFormatter.h"
 
 #include <ctype.h>
 #include <sys/stat.h>
@@ -104,6 +105,8 @@ int main(int argc, char **argv)
     formatter = new XmlFormatter();
   } else if (strcmp(f_value, "json") == 0) {
     formatter = new JsonFormatter();
+  } else if (strcmp(f_value, "plist") == 0) {
+	formatter = new PlistFormatter();
   } else {
     formatter = new TextFormatter();
     f_value = "txt";
@@ -200,7 +203,7 @@ static const char *HELP =
   "      Print version with copyright info and exit.\n\n"
   "  -f FORMAT, --format=FORMAT\n"
   "      Specify the format to use for the output.\n"
-  "      Should be one of the following: text, xml, or json (default: text).\n\n"
+  "      Should be one of the following: text, xml, json, or plist (default: text).\n\n"
   "  -o PATH, --output_path=PATH\n"
   "      Specify where to place the output.\n"
   "      If PATH names a file, the output will be written to it.\n"
