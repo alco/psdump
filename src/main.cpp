@@ -37,12 +37,15 @@ int main(int argc, char **argv)
   char *f_value = "txt";
   char *o_value = NULL;
 
+  int save_files = 0;
+
   while (1) {
     static struct option long_options[] = {
       { "format", required_argument, 0, 'f' },
       { "output_path", required_argument, 0, 'o' },
       { "help", no_argument, 0, 0 },
       { "version", no_argument, 0, 0},
+	  { "save", no_argument, 0, 's' },
       { 0, 0, 0, 0 }
     };
     static const int HELP_OPTION_INDEX = 2;
@@ -50,7 +53,7 @@ int main(int argc, char **argv)
 
     int option_index = 0;
 
-    opt = getopt_long(argc, argv, "f:o:", long_options, &option_index);
+	opt = getopt_long(argc, argv, "f:o:s", long_options, &option_index);
 
     if (opt == -1)
       break;
@@ -75,6 +78,10 @@ int main(int argc, char **argv)
     case 'o':
       o_value = optarg;
       break;
+
+	case 's':
+	  save_files = 1;
+	  break;
 
     case '?':
       break;
@@ -171,6 +178,11 @@ int main(int argc, char **argv)
       if (index + 1 < argc) fprintf(output_file, "\n");
     }
 
+	/* Save layers to PNG files if requested. */
+	if (save_files) {
+	  doc->save_layers(output_dirname ? output_dirname : "");
+	}
+
     delete doc;
   }
 
@@ -186,7 +198,7 @@ int main(int argc, char **argv)
 
 
 static const char *USAGE =
-  "Usage: psdump [-f FORMAT] [-o OUTPUT_PATH] file ...";
+  "Usage: psdump [-f FORMAT] [-o OUTPUT_PATH] [-s] file ...";
 
 static const char *VERSION =
   "psdump 0.9-alpha\nCopyright (c) 2010 Alexei Sholik.\n\n"
@@ -210,7 +222,9 @@ static const char *HELP =
   "      If PATH names a directory, a new file be created in that directory\n"
   "      for each input file. Each new file will be named after its\n"
   "      corresponding input file with extension changed according to the\n"
-  "      chosen format.";
+  "      chosen format.\n\n"
+  "  -s\n"
+  "      Save each layer to a separate PNG file.";
 
 void print_usage()
 {
@@ -232,7 +246,8 @@ void print_help()
 std::string build_path(const char *dirname, const char *filename, const char *format)
 {
   std::string full_path(dirname);
-  full_path += "/";
+  if (full_path.length() > 0)
+	full_path += "/";
 
   std::string file_name(filename);
   size_type slash_index = file_name.rfind('/');
@@ -245,7 +260,12 @@ std::string build_path(const char *dirname, const char *filename, const char *fo
   }
 
   size_type dot_index = file_name.rfind('.');
-  file_name.replace(dot_index + 1, file_name.size() - dot_index - 1, format);
+  if (dot_index == std::string::npos) {
+	  file_name += ".";
+	  file_name += format;
+  } else {
+	file_name.replace(dot_index + 1, file_name.size() - dot_index - 1, format);
+  }
 
   full_path += file_name;
 

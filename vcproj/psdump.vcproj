@@ -515,6 +515,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="LodePNG"
+			>
+			<File
+				RelativePath="..\src\lodePNG\lodepng.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\lodePNG\lodepng.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

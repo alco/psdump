@@ -11,6 +11,10 @@ This class encapsulates all the relevant data for a layer.
 class Layer: public Record {
  public:
   Layer(const char *name, int x, int y, int width, int height);
+  ~Layer();
+
+  void set_contents(unsigned int *image_data, unsigned long num_bytes);
+  void save_to_file(const char *path);
 
   bool is_group() const { return false; }
 
@@ -24,6 +28,9 @@ class Layer: public Record {
   int y_;
   int width_;
   int height_;
+
+  unsigned int *image_data_;
+  unsigned long image_data_length_;
 };
 
 

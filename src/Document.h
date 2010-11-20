@@ -15,10 +15,14 @@ class Document: public LayerGroup {
  public:
   Document(const char *name, int width, int height);
 
+  void save_layers(const char *dir);
+
   int width() const { return width_; }
   int height() const { return height_; }
 
  private:
+  void save_layers(const std::string& dir, LayerGroup *group);
+
   int width_;
   int height_;
 };

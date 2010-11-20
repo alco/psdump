@@ -93,6 +93,7 @@ void PsdParser::parse_psd(LayerGroup *parent)
 
     if (_is_layer(record)) {
       Layer *layer = new Layer((const char *)record->layer_name, record->left, record->top, record->width, record->height);
+	  layer->set_contents(record->image_data, record->width * record->height * 4);
       parent->add_child(layer);
     } else if (_is_group(record)) {
       LayerGroup *group = new LayerGroup((const char*)record->layer_name);
