@@ -10,6 +10,13 @@ The program has been tested on the following systems:
 * Windows XP, 7
 * Linux (Ubuntu 9.10)
 
+## Known issues
+
+When used on Mac OS X with a Photoshop file slightly larger than the
+most basic one, **psdump** crashes with `Segmentation fault`. The reason
+of the crash is supposedly a bug in the **libpsd**. Further
+investigation is planned for an unknown moment in the indefinite future.
+
 ## Installing psdump
 
 In order to start using **psdump** you will likely need to build it
