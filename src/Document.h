@@ -5,6 +5,8 @@
 #include "Layer.h"
 #include "LayerGroup.h"
 
+#include <string>
+
 
 /*
 This class serves as a root group containing all layers and groups
