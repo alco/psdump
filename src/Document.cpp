@@ -1,7 +1,11 @@
 #include "Document.h"
 
-#include <direct.h>
-
+#if !defined(_MSC_VER)
+#  include <sys/stat.h>
+#else
+#  include <direct.h>
+#  define mkdir(x, y) _mkdir(x)
+#endif
 
 std::string build_path(const char *dirname, const char *filename, const char *format);
 
@@ -18,7 +22,7 @@ void Document::save_layers(const std::string& dir, LayerGroup *group)
 	Record *child = group->first_child();
 	if (!child) return;
 
-	_mkdir(dir.c_str());
+	mkdir(dir.c_str(), 0755);
 
 	do {
 		std::string path_prefix(dir);
